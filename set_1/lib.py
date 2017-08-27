@@ -1,5 +1,6 @@
 import binascii
 import string
+from itertools import cycle
 
 
 def hex_to_base64(s):
@@ -83,3 +84,14 @@ def detect_single_character_xor(ciphertexts):
             key = k
 
     return key, max_score, plaintext
+
+
+def encrypt_repeating_key_xor(plaintext, key):
+    """
+    Encrypt `plaintext` with `key` via repeating-key XOR.
+    """
+    key_iter = cycle(key)
+    ciphertext = ''
+    for b in plaintext:
+        ciphertext += chr(ord(b) ^ ord(next(key_iter)))
+    return ciphertext
