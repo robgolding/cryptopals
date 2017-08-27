@@ -1,6 +1,8 @@
 from unittest import TestCase
 
-from lib import hex_to_base64, xor
+from lib import (
+    hex_to_base64, xor, crack_single_byte_xor_cipher,
+)
 
 
 class SetOneTest(TestCase):
@@ -18,4 +20,12 @@ class SetOneTest(TestCase):
                 '686974207468652062756c6c277320657965'.decode('hex'),
             ).encode('hex'),
             '746865206b696420646f6e277420706c6179',
+        )
+
+    def test_crack_single_byte_xor_cipher(self):
+        self.assertEqual(
+            crack_single_byte_xor_cipher(
+                '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'.decode('hex'),
+            ),
+            ('X', 'Cooking MC\'s like a pound of bacon'),
         )
