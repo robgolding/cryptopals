@@ -1,4 +1,5 @@
 import binascii
+import string
 
 
 def hex_to_base64(s):
@@ -40,6 +41,10 @@ def score_text(s):
         if letter in sorted_freq[6:]:
             score += 1
 
+    for letter in s:
+        if letter not in string.letters:
+            score -= 1
+
     return score
 
 
@@ -62,4 +67,19 @@ def crack_single_byte_xor_cipher(ciphertext):
             plaintext = deciphered
             key = k
 
-    return key, plaintext
+    return key, max_score, plaintext
+
+
+def detect_single_character_xor(ciphertexts):
+    max_score = 0
+    plaintext = None
+    key = None
+
+    for ciphertext in ciphertexts:
+        k, score, deciphered = crack_single_byte_xor_cipher(ciphertext)
+        if score > max_score:
+            max_score = score
+            plaintext = deciphered
+            key = k
+
+    return key, max_score, plaintext

@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from lib import (
     hex_to_base64, xor, crack_single_byte_xor_cipher,
+    detect_single_character_xor,
 )
 
 
@@ -23,9 +24,23 @@ class SetOneTest(TestCase):
         )
 
     def test_crack_single_byte_xor_cipher(self):
-        self.assertEqual(
-            crack_single_byte_xor_cipher(
-                '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'.decode('hex'),
-            ),
-            ('X', 'Cooking MC\'s like a pound of bacon'),
+        _, _, plaintext = crack_single_byte_xor_cipher(
+            '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'.decode('hex'),
         )
+        self.assertEqual(
+            plaintext,
+            'Cooking MC\'s like a pound of bacon',
+        )
+
+    def test_detect_single_character_xor(self):
+        with open('set_1/4.txt') as f:
+            _, _, plaintext = detect_single_character_xor(
+                map(
+                    lambda h: h.strip().decode('hex'),
+                    f,
+                ),
+            )
+            self.assertEqual(
+                plaintext,
+                'Now that the party is jumping\n',
+            )
