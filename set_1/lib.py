@@ -95,3 +95,13 @@ def encrypt_repeating_key_xor(plaintext, key):
     for b in plaintext:
         ciphertext += chr(ord(b) ^ ord(next(key_iter)))
     return ciphertext
+
+
+def hamming_distance(s1, s2):
+    """
+    Compute the hamming distance between s1 and s2.
+    """
+    distance = 0
+    for i, j in zip(*map(lambda s: format(int(s.encode('hex'), 16), 'b'), [s1, s2])):
+        distance += ord(i) ^ ord(j)
+    return distance

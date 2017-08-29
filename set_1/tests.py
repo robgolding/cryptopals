@@ -4,6 +4,7 @@ from lib import (
     hex_to_base64, xor, crack_single_byte_xor_cipher,
     detect_single_character_xor,
     encrypt_repeating_key_xor,
+    hamming_distance,
 )
 
 
@@ -56,4 +57,13 @@ class SetOneTest(TestCase):
                 'ICE',
             ).encode('hex'),
             '0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f',
+        )
+
+    def test_hamming_distance(self):
+        self.assertEqual(
+            hamming_distance(
+                'this is a test',
+                'wokka wokka!!!',
+            ), 
+            37,
         )
