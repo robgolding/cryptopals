@@ -5,6 +5,7 @@ from lib import (
     detect_single_character_xor,
     encrypt_repeating_key_xor,
     hamming_distance,
+    crack_repeating_key_xor,
 )
 
 
@@ -64,6 +65,12 @@ class SetOneTest(TestCase):
             hamming_distance(
                 'this is a test',
                 'wokka wokka!!!',
-            ), 
+            ),
             37,
         )
+
+    def test_crack_repeating_key_xor(self):
+        with open('set_1/6.txt') as f:
+            score, plaintext, key = crack_repeating_key_xor(f.read().decode('base64'))
+        self.assertEqual(key, 'Terminator X: Bring the noise')
+        self.assertIn('Play that funky music, white boy', plaintext)
