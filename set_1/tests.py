@@ -6,6 +6,7 @@ from lib import (
     encrypt_repeating_key_xor,
     hamming_distance,
     crack_repeating_key_xor,
+    decrypt_aes_cbc,
 )
 
 
@@ -74,3 +75,10 @@ class SetOneTest(TestCase):
             score, plaintext, key = crack_repeating_key_xor(f.read().decode('base64'))
         self.assertEqual(key, 'Terminator X: Bring the noise')
         self.assertIn('Play that funky music, white boy', plaintext)
+
+    def test_decrypt_aes_cbc(self):
+        with open('set_1/7.txt') as f:
+            self.assertIn(
+                'Play that funky music, white boy',
+                decrypt_aes_cbc(f.read().decode('base64'), 'YELLOW SUBMARINE'),
+            )

@@ -1,9 +1,13 @@
 from __future__ import division
 
+import os
 import random
 import string
 from itertools import cycle, islice, izip_longest
 from StringIO import StringIO
+
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
 
 
 def hex_to_base64(s):
@@ -186,3 +190,10 @@ def crack_repeating_key_xor(ciphertext, **kwargs):
         except RuntimeError:
             continue
     return sorted(results, reverse=True)[0]
+
+
+def decrypt_aes_cbc(ciphertext, key):
+    backend = default_backend()
+    cipher = Cipher(algorithms.AES(key), modes.ECB(), backend=backend)
+    decryptor = cipher.decryptor()
+    return decryptor.update(ciphertext) + decryptor.finalize()
