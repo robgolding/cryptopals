@@ -6,7 +6,8 @@ from lib import (
     encrypt_repeating_key_xor,
     hamming_distance,
     crack_repeating_key_xor,
-    decrypt_aes_cbc,
+    decrypt_aes_ecb,
+    detect_aes_ecb,
 )
 
 
@@ -76,9 +77,16 @@ class SetOneTest(TestCase):
         self.assertEqual(key, 'Terminator X: Bring the noise')
         self.assertIn('Play that funky music, white boy', plaintext)
 
-    def test_decrypt_aes_cbc(self):
+    def test_decrypt_aes_ecb(self):
         with open('set_1/7.txt') as f:
             self.assertIn(
                 'Play that funky music, white boy',
                 decrypt_aes_cbc(f.read().decode('base64'), 'YELLOW SUBMARINE'),
             )
+
+    def test_detect_aes_ecb(self):
+        with open('set_1/8.txt') as f:
+            for i, line in enumerate(f):
+                # line 133 has the ECB-encrypted ciphertext
+                func = self.assertTrue if i == 132 else self.assertFalse
+                func(detect_aes_ecb(line.strip().decode('hex')))

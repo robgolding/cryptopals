@@ -192,8 +192,13 @@ def crack_repeating_key_xor(ciphertext, **kwargs):
     return sorted(results, reverse=True)[0]
 
 
-def decrypt_aes_cbc(ciphertext, key):
+def decrypt_aes_ecb(ciphertext, key):
     backend = default_backend()
     cipher = Cipher(algorithms.AES(key), modes.ECB(), backend=backend)
     decryptor = cipher.decryptor()
     return decryptor.update(ciphertext) + decryptor.finalize()
+
+
+def detect_aes_ecb(ciphertext, key_size=16):
+    chunks = list(chunk_gen(ciphertext, key_size))
+    return len(set(chunks)) != len(chunks)
