@@ -81,7 +81,7 @@ class SetOneTest(TestCase):
         with open('set_1/7.txt') as f:
             self.assertIn(
                 'Play that funky music, white boy',
-                decrypt_aes_cbc(f.read().decode('base64'), 'YELLOW SUBMARINE'),
+                decrypt_aes_ecb(f.read().decode('base64'), 'YELLOW SUBMARINE'),
             )
 
     def test_detect_aes_ecb(self):
