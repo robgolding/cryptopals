@@ -1,6 +1,5 @@
 from __future__ import division
 
-import os
 import random
 import string
 from itertools import cycle, islice, izip_longest

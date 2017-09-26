@@ -1,7 +1,18 @@
+from __future__ import absolute_import
+
+import functools
+import random
+import os
+
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-from ..set_1.lib import xor, chunk_gen, decrypt_aes_ecb
+from cryptopals.set_1.lib import (
+    xor,
+    chunk_gen,
+    decrypt_aes_ecb,
+    detect_aes_ecb,
+)
 
 
 def pkcs7_padding(s, num_bytes):
@@ -44,3 +55,25 @@ def decrypt_aes_cbc(ciphertext, key, iv):
         )
         prev_chunk = chunk
     return plaintext
+
+
+def random_key(length=16):
+    return os.urandom(16)
+
+
+def encryption_oracle(plaintext):
+    prefix = random_key(random.choice(range(5, 11)))
+    suffix = random_key(random.choice(range(5, 11)))
+    encryption_func = random.choice([
+        encrypt_aes_ecb,
+        functools.partial(encrypt_aes_cbc, iv=random_key()),
+    ])
+    print 'Using {}'.format(encryption_func)
+    return encryption_func(prefix + plaintext + suffix, random_key())
+
+
+def detect_encryption_scheme(encryption_func):
+    is_ecb = detect_aes_ecb(encryption_func('A' * 16 * 16))
+    if is_ecb:
+        return 'ECB'
+    return 'CBC?'

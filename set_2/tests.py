@@ -1,10 +1,14 @@
+from __future__ import absolute_import
+
 from unittest import TestCase
 
-from ..set_1.lib import decrypt_aes_ecb
-from lib import (
+from cryptopals.set_1.lib import decrypt_aes_ecb
+from cryptopals.set_2.lib import (
     pkcs7_padding,
     encrypt_aes_ecb,
     decrypt_aes_cbc,
+    encryption_oracle,
+    detect_encryption_scheme,
 )
 
 
@@ -22,6 +26,7 @@ class SetTwoTest(TestCase):
         )
 
     def test_encrypt_aes_ecb(self):
+
         key = 'YELLOW SUBMARINE'
         plaintext = 'Play that funky music, white boy'
 

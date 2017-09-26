@@ -1,6 +1,8 @@
+from __future__ import absolute_import
+
 from unittest import TestCase
 
-from lib import (
+from cryptopals.set_1.lib import (
     hex_to_base64, xor, crack_single_byte_xor_cipher,
     detect_single_character_xor,
     encrypt_repeating_key_xor,
