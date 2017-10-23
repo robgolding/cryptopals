@@ -77,3 +77,25 @@ def detect_encryption_scheme(encryption_func):
     if is_ecb:
         return 'ECB'
     return 'CBC?'
+
+
+def encrypt_with_consistent_key(plaintext):
+    key = 'YELLOW SUBMARINE'
+    plaintext += (
+        'Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkg'
+        'aGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBq'
+        'dXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUg'
+        'YnkK'
+    ).decode('base64')
+    return encrypt_aes_ecb(plaintext, key)
+
+
+def do_challenge_12():
+    for i in range(1, 33):
+        try:
+            encrypt_with_consistent_key('A' * i)
+        except Exception as e:
+            print i, e
+            pass
+    block_size = i
+    print 'block size is {}'.format(block_size)

@@ -9,6 +9,7 @@ from cryptopals.set_2.lib import (
     decrypt_aes_cbc,
     encryption_oracle,
     detect_encryption_scheme,
+    do_challenge_12,
 )
 
 
@@ -49,3 +50,6 @@ class SetTwoTest(TestCase):
                 chr(0) * 16,
             )
             self.assertIn('Play that funky music, white boy', plaintext)
+
+    def test_challange_12(self):
+        do_challenge_12()
